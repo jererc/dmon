@@ -1,0 +1,45 @@
+<div ng-controller="ServicesModalCtrl">
+
+    <!-- Update service modal -->
+    <div ng-model="service" id="modal-service-update" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Update service</h3>
+        </div>
+        <form class="form-horizontal" name="updateServiceForm">
+            <div class="modal-body">
+
+                <!-- Script -->
+                <div class="control-group">
+                    <label class="control-label" for="inputScript">Script</label>
+                    <div class="controls">
+                        <textarea ng-model="service.script" class="script-textarea" required></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button submit-modal="updateService()" ng-disabled="updateServiceForm.$invalid" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Remove service modal -->
+    <div ng-model="service" id="modal-service-remove" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Remove service</h3>
+        </div>
+        <form class="form-horizontal" name="removeServiceForm">
+            <div class="modal-body">
+                <p>Are you sure you want to remove <strong>{{service.name}}</strong> ?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button submit-modal="removeService()" ng-disabled="removeServiceForm.$invalid" class="btn btn-danger">Ok</button>
+            </div>
+        </form>
+    </div>
+
+</div>

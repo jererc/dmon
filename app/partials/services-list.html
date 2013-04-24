@@ -1,0 +1,32 @@
+<ng-include src="'partials/services-modals.html'"></ng-include>
+
+<div class="container">
+
+    <div class="accordion" id="services-accordion">
+        <div ng-repeat="service in services" class="accordion-group">
+
+            <!-- Header -->
+            <div class="accordion-heading">
+                <span class="text-center label item-status" ng-class="statusInfo[service.status].labelClass">{{statusInfo[service.status].name}}</span>
+                <a ng-click="getLog(service.name)" class="accordion-toggle" data-toggle="collapse" data-parent="#services-accordion" href="#{{service.name}}">{{service.name}}</a>
+            </div>
+
+            <!-- Content -->
+            <div id="{{service.name}}" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <ul class="unstyled">
+                        <li>
+                            <button open-service-modal="#modal-service-update" class="btn" type="button">Edit</button>
+                            <button ng-click="setServiceStatus(service)" class="btn btn-primary" type="button">{{statusInfo[service.status].action}}</button>
+                            <button open-service-modal="#modal-service-remove" class="btn btn-danger" type="button">Remove</button>
+                        </li>
+                    </ul>
+
+                    <pre><small>{{logData}}</small></pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

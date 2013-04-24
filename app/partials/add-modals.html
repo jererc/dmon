@@ -1,0 +1,36 @@
+<div ng-controller="AddModalCtrl">
+
+    <!-- Add service modal -->
+    <div modal-focus="#inputName" id="modal-add-service" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Add service</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" name="createServiceForm" novalidate>
+
+                <!-- Name -->
+                <div class="control-group">
+                    <label class="control-label" for="inputName">Name</label>
+                    <div class="controls">
+                        <input ng-model="service.name" type="text" id="inputName" required>
+                    </div>
+                </div>
+
+                <!-- Script -->
+                <div class="control-group">
+                    <label class="control-label" for="inputScript">Script</label>
+                    <div class="controls">
+                        <textarea ng-model="service.script" class="script-textarea" required></textarea>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button submit-modal="createService()" ng-disabled="createServiceForm.$invalid" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+    </div>
+
+</div>
