@@ -69,7 +69,7 @@ function MainCtrl($rootScope, $scope, $location, apiSvc, eventSvc, utilsSvc) {
 
 
 //
-// Logs list
+// Services list
 //
 function ServicesListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utilsSvc) {
 
