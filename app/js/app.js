@@ -1,8 +1,6 @@
 'use strict';
 
-/* App Module */
-
-angular.module('dmonApp', ['dmonServices', 'dmonDirectives', 'dmonFilters']).
+angular.module('dmonApp', ['dmonServices', 'dmonDirectives', 'dmonFilters', 'angularUtils']).
     config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/', {redirectTo: '/services'}).

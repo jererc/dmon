@@ -69,6 +69,43 @@ function MainCtrl($rootScope, $scope, $location, apiSvc, eventSvc, utilsSvc) {
 
 
 //
+// Add modal
+//
+function AddModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
+
+    $scope.service = {};
+    $scope.defaultScript = "#!/bin/sh\nexec 2>&1\nexport LANG='en_US.UTF-8'\nexport LC_ALL='en_US.UTF-8'\nexec setuidgid <USER> <COMMAND>";
+
+    function initAddForm() {
+        if ($scope.createServiceForm) {
+            $scope.createServiceForm.$setPristine();
+        }
+        $scope.service = {
+            name: $scope.service.name || '',
+            script: $scope.service.script || $scope.defaultScript,
+        };
+    }
+
+    $scope.createService = function() {
+        apiSvc.createService($scope.service).
+            success(function(data) {
+                if (data.error) {
+                    console.error('failed to create service:', data.error);
+                } else {
+                    eventSvc.emit('updateServices');
+                    $scope.service = {};
+                }
+            });
+    };
+
+    $rootScope.$on('openAddModal', function(event, data) {
+        initAddForm();
+    });
+
+}
+
+
+//
 // Services list
 //
 function ServicesListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utilsSvc) {
@@ -157,44 +194,7 @@ function ServicesListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utils
 
 
 //
-// Add modal
-//
-function AddModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
-
-    $scope.service = {};
-    $scope.defaultScript = "#!/bin/sh\nexec 2>&1\nexport LANG='en_US.UTF-8'\nexport LC_ALL='en_US.UTF-8'\nexec setuidgid <USER> <COMMAND>";
-
-    function initAddForm() {
-        if ($scope.createServiceForm) {
-            $scope.createServiceForm.$setPristine();
-        }
-        $scope.service = {
-            name: $scope.service.name || '',
-            script: $scope.service.script || $scope.defaultScript,
-        };
-    }
-
-    $scope.createService = function() {
-        apiSvc.createService($scope.service).
-            success(function(data) {
-                if (data.error) {
-                    console.error('failed to create service:', data.error);
-                } else {
-                    eventSvc.emit('updateServices');
-                    $scope.service = {};
-                }
-            });
-    };
-
-    $rootScope.$on('addModalOpen', function(event, data) {
-        initAddForm();
-    });
-
-}
-
-
-//
-// Sync modals
+// Services modals
 //
 function ServicesModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 
@@ -220,7 +220,7 @@ function ServicesModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
             });
     };
 
-    $rootScope.$on('serviceModalOpen', function(event, service) {
+    $rootScope.$on('openServiceModal', function(event, service) {
         $scope.service = angular.copy(service);
     });
 
