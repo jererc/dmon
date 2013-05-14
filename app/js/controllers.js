@@ -4,7 +4,7 @@
 //
 // Main
 //
-function MainCtrl($rootScope, $scope, $location, apiSvc, eventSvc, utilsSvc) {
+function MainCtrl($rootScope, $scope, $location, rootScopeSvc, apiSvc, eventSvc, utilsSvc) {
 
     $rootScope.apiStatus = false;
 
@@ -38,27 +38,6 @@ function MainCtrl($rootScope, $scope, $location, apiSvc, eventSvc, utilsSvc) {
         }
     }
 
-    $rootScope.isMenuActive = function(path) {
-        if ($location.path().substr(0, path.length) == path) {
-            return 'active';
-        }
-        return '';
-    };
-
-    $rootScope.inArray = function(value, array) {
-        if (!array) {
-            return -1;
-        }
-        return utilsSvc.getIndex(value, array) != -1;
-    };
-
-    $rootScope.exists = function(val) {
-        if (angular.isArray(val)) {
-            return !!val.length;
-        }
-        return !!val;
-    };
-
     $rootScope.$on('checkApi', function(event, args) {
         checkApi((!!args) ? args.url : null);
     });
@@ -73,17 +52,15 @@ function MainCtrl($rootScope, $scope, $location, apiSvc, eventSvc, utilsSvc) {
 //
 function AddModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 
-    $scope.service = {};
-    $scope.defaultScript = "#!/bin/sh\nexec 2>&1\nexport LANG='en_US.UTF-8'\nexport LC_ALL='en_US.UTF-8'\nexec setuidgid <USER> <COMMAND>";
-
     function initAddForm() {
         if ($scope.createServiceForm) {
             $scope.createServiceForm.$setPristine();
         }
-        $scope.service = {
-            name: $scope.service.name || '',
-            script: $scope.service.script || $scope.defaultScript,
-        };
+        if (!$scope.service) {
+            $scope.service = {
+                script: "#!/bin/sh\nexec 2>&1\nexport LANG='en_US.UTF-8'\nexport LC_ALL='en_US.UTF-8'\nexec setuidgid <USER> <COMMAND>",
+            };
+        }
     }
 
     $scope.createService = function() {
@@ -93,7 +70,7 @@ function AddModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
                     console.error('failed to create service:', data.error);
                 } else {
                     eventSvc.emit('updateServices');
-                    $scope.service = {};
+                    $scope.service = undefined;
                 }
             });
     };
@@ -108,7 +85,7 @@ function AddModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 //
 // Services list
 //
-function ServicesListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utilsSvc) {
+function ServiceListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utilsSvc) {
 
     $scope.services = [];
     $scope.serviceName = null;
@@ -196,7 +173,7 @@ function ServicesListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utils
 //
 // Services modals
 //
-function ServicesModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
+function ServiceModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 
     $scope.updateService = function() {
         apiSvc.updateService($scope.service).

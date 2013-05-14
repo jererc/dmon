@@ -24,30 +24,30 @@
 
         // Services
         this.createService = function(data) {
-            return $http.post(this.getUrl() + '/services/create', data);
+            return $http.post(this.getUrl() + '/service/create', data);
         };
 
         this.listServices = function() {
-            return $http.get(this.getUrl() + '/services/list');
+            return $http.get(this.getUrl() + '/service/list');
         };
 
         this.getServiceLog = function(name) {
-            return $http.post(this.getUrl() + '/services/log',
-                {name: name});
+            return $http.post(this.getUrl() + '/service/log',
+                    {name: name});
         };
 
         this.processService = function(name, action) {
-            return $http.post(this.getUrl() + '/services/process',
-                {name: name, action: action});
+            return $http.post(this.getUrl() + '/service/process',
+                    {name: name, action: action});
         };
 
         this.updateService = function(data) {
-            return $http.post(this.getUrl() + '/services/update', data);
+            return $http.post(this.getUrl() + '/service/update', data);
         };
 
         this.removeService = function(name) {
-            return $http.post(this.getUrl() + '/services/remove',
-                {name: name});
+            return $http.post(this.getUrl() + '/service/remove',
+                    {name: name});
         };
 
     });
