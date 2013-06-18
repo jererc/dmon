@@ -32,8 +32,7 @@ function MainCtrl($rootScope, $scope, $location, rootScopeSvc, apiSvc, eventSvc,
         } else {
             apiSvc.getSettingsUrl().
                 success(function(data) {
-                    url = data.apiUrl || url;
-                    _checkApi(url);
+                    _checkApi(data.apiUrl);
                 });
         }
     }
@@ -210,10 +209,10 @@ function ServiceModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 function SettingsListCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 
     function getSettings() {
-        $scope.apiUrl = apiSvc.getUrl();
     }
 
     $scope.checkApi = function() {
+        $scope.apiUrl = $scope.apiUrl || apiSvc.getUrl();
         eventSvc.emit('checkApi', {url: $scope.apiUrl});
     };
 
