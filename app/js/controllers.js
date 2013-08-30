@@ -86,10 +86,10 @@ function AddModalCtrl($rootScope, $scope, apiSvc, eventSvc, utilsSvc) {
 //
 function ServiceListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utilsSvc) {
 
+    $rootScope.hasResult = true;
     $scope.services = [];
     $scope.serviceName = null;
     $scope.logData = '';
-
     $scope.statusInfo = {
         true: {name: 'up', action: 'stop', labelClass: 'label-success'},
         false: {name: 'down', action: 'start', labelClass: 'label-important'},
@@ -114,6 +114,7 @@ function ServiceListCtrl($rootScope, $scope, $timeout, $location, apiSvc, utilsS
                 }).
                 success(function(data) {
                     utilsSvc.updateList($scope.services, data.result, 'name');
+                    $rootScope.hasResult = data.result.length > 0 ? true : false;
                     updateTimeout = $timeout(updateServices, cacheDelta);
                 });
         }
